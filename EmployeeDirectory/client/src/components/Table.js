@@ -8,19 +8,17 @@ export default function Table(props) {
                         <th style={styles.tableHeaderStyle}>First Name</th>
                         <th style={styles.tableHeaderStyle}>Last Name</th>
                         <th style={styles.tableHeaderStyle}>Department</th>
-                        <th style={styles.tableHeaderStyle}>Location</th>
+                        
                     </tr>
                 </thead>
                 <tbody>
                     {
                         props.rows.map(rows => (
-
-                            <tr>
+                            <tr key={rows.id}>
                                 <td>{rows.first_name}</td>
                                 <td>{rows.last_name}</td>
                                 <td>{rows.department}</td>
-                                <td>{rows.location}</td>
-                                <td><button>Delete</button></td>
+                                <td><button>Details</button></td>
                             </tr>
                         ))
                     }

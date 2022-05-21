@@ -12,7 +12,7 @@ let currentemployeeId=-1
 
 // Fetch
 app.get("/employees", (req, res) => {
-    const query = 'SELECT employee.first_name,employee.middle_name,employee.last_name FROM employee'
+    const query = 'SELECT employee.id,employee.first_name,employee.middle_name,employee.last_name FROM employee'
     pool.query(query, (error, results) => {
         if (error) {
             throw error
@@ -29,13 +29,22 @@ const  insertIntoemployeeAuthor = async (employeeId,authorId) =>{
 const  insertIntoemployee = async (firstName,middleName,lastName) =>{  
     let query = "INSERT INTO employee(first_name,middle_name,last_name) VALUES('"+firstName+"','"+middleName+"','"+lastName+"') RETURNING *"
     const results = await pool.query(query)
-    return results.rows[0].employee_id
+    return results.rows[0].id
+}
+
+const insertIntoEmpDept = async (empid,deptId)=>{
+    console.log(empid,deptId)
+    let query = "INSERT INTO emp_dept(emp_id,dept_id) VALUES('"+empid+"','"+deptId+"') RETURNING *"
+    const results = await pool.query(query)
+    return results
 }
 
 // Add
 app.post("/employees", async(req, res) => { 
+    console.log(req.body.departmentId)
     const id = await insertIntoemployee(req.body.firstName,req.body.middleName,req.body.lastName)
-    //await insertIntoemployeeAuthor(id,req.body.authorId)
+    console.log(id)
+    await insertIntoEmpDept(id,req.body.departmentId)
     res.status(200).json({message:'employee added'}).end()
 })
 

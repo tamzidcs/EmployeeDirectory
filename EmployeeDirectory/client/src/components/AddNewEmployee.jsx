@@ -7,10 +7,11 @@ export default function AddNewEmployee() {
   const [firstName, setFirstName] = useState("");
   const [middleName, setMiddleName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [department, setDepartment] = useState("");
+  const [departmentId, setDepartmentId] = useState("");
   const [title, setTitle] = useState("");
   const [location, setLocation] = useState("");
   const [departmentList, setDepartmentList] = useState([]);
+  const [deptIdMap,setDeptIdMap] = useState({})
   const [titleList, setTitleList] = useState([]);
 
   const alert = useAlert();
@@ -23,6 +24,7 @@ export default function AddNewEmployee() {
         firstName: firstName,
         middleName: middleName,
         lastName: lastName,
+        departmentId:departmentId
       })
       .then((resp) => {
         if (resp.data.message === "employee added")
@@ -34,6 +36,12 @@ export default function AddNewEmployee() {
     axios
       .get("http://localhost:3005/departments")
       .then((resp) => {
+        console.log(resp.data)
+        let map = {}
+        resp.data.forEach(elem=>{
+          map[elem.name] = elem.id 
+        })
+        setDeptIdMap(map)
         setDepartmentList(resp.data)
       });
   }
@@ -48,7 +56,7 @@ export default function AddNewEmployee() {
 
   useEffect(()=>{
     getDepartments()
-    getJobs()
+    //getJobs()
   },[])
 
   return (
@@ -82,9 +90,8 @@ export default function AddNewEmployee() {
           />
           <label style={styles.label}>Department:</label>
           <input
-            
             list='departmentList'
-            onChange={(e) => setDepartment(e)}
+            onChange={(e) => setDepartmentId(deptIdMap[e.target.value])}
             style={styles.textField}
           />
           <datalist id='departmentList' style={styles.nameDropDown}>
