@@ -2,7 +2,6 @@
 import './App.css';
 import Header from './components/Header';
 import TopBar from './components/TopBar';
-import EmployeeList from './components/EmployeeList'
 import AddNewEmployee from './components/AddNewEmployee';
 
 import {
@@ -10,7 +9,8 @@ import {
   Routes,
   Route
 } from "react-router-dom";
-import EmployeeListView from './components/EmployeeListView';
+import EmployeeListView from './components/EmployeeList';
+import HomePage from './components/HomePage';
 
 const Landing = () => {
   return (
@@ -28,7 +28,7 @@ function App() {
         <Header />
         <TopBar />        
         <Routes style={styles.container}>
-          <Route path="/" element={<EmployeeList />} />
+          <Route path="/" element={<HomePage />} />
           <Route path="/AddNewEmployee" element={<AddNewEmployee />} />
         </Routes>
 

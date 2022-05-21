@@ -10,10 +10,8 @@ export default function AddNewEmployee() {
   const [department, setDepartment] = useState("");
   const [title, setTitle] = useState("");
   const [location, setLocation] = useState("");
-  const [departmentList, setDepartmentList] = useState([
-    { id: "1", name: "test" },
-  ]);
-  const [titleList, setTitleList] = useState([{ id: "1", name: "test" }]);
+  const [departmentList, setDepartmentList] = useState([]);
+  const [titleList, setTitleList] = useState([]);
 
   const alert = useAlert();
 

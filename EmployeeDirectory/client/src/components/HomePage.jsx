@@ -1,7 +1,9 @@
+import EmployeeListView from './EmployeeListView';
+
 export default function HomePage(){
     return(
         <div style={styles.container}>
-            <DisplayBooks />
+            <EmployeeListView />
         </div>
     );
 }

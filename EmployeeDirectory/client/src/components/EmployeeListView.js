@@ -1,25 +1,35 @@
-import Table from "./Table";
-const axios = require('axios')
+import axios from "axios";
+import {useState,useEffect } from "react";
+import EmployeeList from "./EmployeeList";
 
-export default function EmployeeListView(props){
-     // Delete employees from the server
-     const deleteEmployee = (employeeId) => {
-         console.log('........')
-        axios.delete('http://localhost:3005/employees',{employeeId:employeeId})
+export default function EmployeeListView() {
+    const [data, setData] = useState([])
+    const getEmployees = () => {
+        console.log('get employee')
+        axios.get('http://localhost:3005/employees')
             .then(resp => {
-                //console.log(resp.data)
-                //setData(resp.data)
-            })
+                console.log('data',resp.data)
+                setData(resp.data)
+            }) 
     }
-    return(
-        <div style={styles.container}>
-            <Table rows={props.data} deleteemployee={deleteEmployee}/>
+    useEffect(() => {
+       getEmployees()
+    }, []);
+    return (
+        <div>
+            <EmployeeList data={data} />
         </div>
     );
 }
 
-const styles={
-    container:{
-        display:'inline-block'
+const styles = {
+    getBooksButtonView: {
+        display: 'inline-block',
+        verticalAlign: 'top',
+        padding: '3vw'
+
+    },
+    button: {
+        padding: '1vw',
     }
 }
