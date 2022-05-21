@@ -51,7 +51,27 @@ app.delete("/employees", async(req, res) => {
     await pool.query(query)
 })
 
+// Fetch departments
+app.get("/departments", (req, res) => {
+    const query = 'SELECT id,name FROM department'
+    pool.query(query, (error, results) => {
+        if (error) {
+            throw error
+        }
+        res.status(200).json(results.rows).end()
+    })
+})
 
+// Fetch departments
+app.get("/jobs", (req, res) => {
+    const query = 'SELECT id,title FROM jobs'
+    pool.query(query, (error, results) => {
+        if (error) {
+            throw error
+        }
+        res.status(200).json(results.rows).end()
+    })
+})
 app.listen(PORT, () => {
     console.log(`Server listening  on ${PORT}`);
 })

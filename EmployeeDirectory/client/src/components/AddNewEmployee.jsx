@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { useAlert } from "react-alert";
 
 const axios = require("axios");
@@ -29,6 +29,28 @@ export default function AddNewEmployee() {
           alert.show("New Employee Added.");
       });
   };
+
+  const getDepartments = ()=>{
+    axios
+      .get("http://localhost:3005/departments")
+      .then((resp) => {
+        setDepartmentList(resp.data)
+      });
+  }
+
+  const getJobs = ()=>{
+    axios
+      .get("http://localhost:3005/jobs")
+      .then((resp) => {
+        setTitleList(resp.data)
+      });
+  }
+
+  useEffect(()=>{
+    getDepartments()
+    getJobs()
+  },[])
+
   return (
     <div style={styles.container}>
       <div style={styles.headerText}>Add New Employee</div>
