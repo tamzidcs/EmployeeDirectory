@@ -1,4 +1,6 @@
-import { useEffect, useState } from 'react';
+import {useState } from 'react';
+import { useAlert } from 'react-alert'
+
 const axios = require('axios')
 
 export default function AddNewEmployee() {
@@ -9,12 +11,14 @@ export default function AddNewEmployee() {
     const [title, setTitle] = useState('');
     const [location, setLocation] = useState('');
     
+    const alert = useAlert()
     // Add new employee
     const addNewEmployee = (event) => {
         event.preventDefault();
         axios.post('http://localhost:3005/employees', { firstName: firstName, middleName: middleName,lastName:lastName })
             .then(resp => {
-                console.log(resp)
+                if(resp.data.message==='employee added')
+                    alert.show('New Employee Added.')
             })
     }
     return (

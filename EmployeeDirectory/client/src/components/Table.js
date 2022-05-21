@@ -6,9 +6,9 @@ export default function Table(props) {
                 <thead>
                     <tr>
                         <th style={styles.tableHeaderStyle}>First Name</th>
-                        <th style={styles.tableHeaderStyle}>Middle Name</th>
                         <th style={styles.tableHeaderStyle}>Last Name</th>
-                        <th style={styles.tableHeaderStyle}></th>
+                        <th style={styles.tableHeaderStyle}>Department</th>
+                        <th style={styles.tableHeaderStyle}>Location</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -17,8 +17,9 @@ export default function Table(props) {
 
                             <tr>
                                 <td>{rows.first_name}</td>
-                                <td>{rows.middle_name}</td>
                                 <td>{rows.last_name}</td>
+                                <td>{rows.department}</td>
+                                <td>{rows.location}</td>
                                 <td><button>Delete</button></td>
                             </tr>
                         ))
