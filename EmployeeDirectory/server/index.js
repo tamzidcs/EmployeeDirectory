@@ -12,7 +12,7 @@ let currentemployeeId=-1
 
 // Fetch
 app.get("/employees", (req, res) => {
-    const query = 'SELECT employee.id,employee.first_name,employee.middle_name,employee.last_name FROM employee'
+    const query = 'SELECT employee.id,employee.first_name,employee.middle_name,employee.last_name,department.name AS department FROM employee,department,emp_dept where department.id = emp_dept.dept_id AND employee.id = emp_dept.emp_id'
     pool.query(query, (error, results) => {
         if (error) {
             throw error
