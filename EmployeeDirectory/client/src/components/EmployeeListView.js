@@ -33,7 +33,7 @@ export default function EmployeeListView() {
        getEmployees(location,department,title)
     }, []);
     return (
-        <div>
+        <div style={styles.container}>
             <FilterView applyFilter={applyFilter}/>
             <EmployeeList data={data} />
         </div>
@@ -41,11 +41,11 @@ export default function EmployeeListView() {
 }
 
 const styles = {
-    getBooksButtonView: {
-        display: 'inline-block',
-        verticalAlign: 'top',
-        padding: '3vw'
-
+    container:{
+        display:'flex',
+        flexWrap: 'wrap',
+        width:'100vw',
+        backgroundColor:''
     },
     button: {
         padding: '1vw',

@@ -3,8 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Link } from 'react-router-dom';
 
 export default function Table(props) {
-    console.log(props)
-    
+
     return (
         <div style={styles.tableView}>
             <table style={styles.table}>
@@ -19,6 +18,7 @@ export default function Table(props) {
                 </thead>
                 <tbody>
                     {
+                        props.rows.length>0 ?
                         props.rows.map(rows => (
                             <tr key={rows.id}>
                                 <td>{rows.first_name}</td>
@@ -28,7 +28,7 @@ export default function Table(props) {
                                 <td>{rows.location}</td>
                                 <td><Link to="/employee-details-page" state={{ id:rows.id }}>Details</Link></td>
                             </tr>
-                        ))
+                        )) : <tr><td colspan='5' style={styles.noEmployeeLabel}>No employee in database.</td></tr>
                     }
                 </tbody>
             </table>
@@ -53,4 +53,7 @@ const styles = {
         minWidth: '10vw',
         backgroundColor: 'gray'
     },
+    noEmployeeLabel:{
+        backgroundColor:''
+    }
 }

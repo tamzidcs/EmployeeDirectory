@@ -151,30 +151,34 @@ const styles = {
     marginTop: "1vw",
   },
   container: {
-    display: "inline-block",
+    display: "flex-row",
+    width:'20vw',
     paddingTop: "5vh",
+    paddingLeft:'3.5vw',
     marginBottom: "10vh",
+    backgroundColor:''
   },
   addNewEmployeeForm: {
     display: "block",
     alignIten: "left",
     paddingTop: "3.5vw",
-    width: "20vw",
+    width: "15vw",
   },
   headerText: {
     fontWeight: "bold",
     fontSize: "2.5vw",
   },
   textField: {
-    width: "20vw",
+    width: "15vw",
     height: "4vh",
     marginBottom: "2vh",
     fontSize: "1.1vw",
+    paddingLeft:'0vw'
   },
   label: {
     display: "flex",
     justifyContent: "left",
     width: "25vw",
-    paddingRight: "1vw",
+    paddingRight: "0vw",
   },
 };

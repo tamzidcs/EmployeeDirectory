@@ -20,6 +20,8 @@ export default function EmployeeList(props){
 
 const styles={
     container:{
-        display:'inline-block'
+        display:'flex-row',
+        width:'70vw',
+        backgroundColor:''
     }
 }

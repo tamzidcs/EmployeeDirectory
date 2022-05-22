@@ -20,19 +20,40 @@ export default function EmployeeDetailsPage(props) {
     <div style={styles.container}>
       {data ? (
         <div style={styles.detailsView}>
-          
-          <div style={styles.label}>First Name</div>
-          <div>{data[0].first_name}</div>
-          <div style={styles.label}>Middle Name</div>
-          <div>{data[0].middle_name}</div>
-          <div style={styles.label}>Last Name</div>
-          <div>{data[0].last_name}</div>
-          <div style={styles.label}>Department</div>
-          <div>{data[0].department}</div>
-          <div style={styles.label}>Title</div>
-          <div>{data[0].title}</div>
-          <div style={styles.label}>Location</div>
-          <div>{data[0].location}</div>
+          <table style={styles.table}>
+            <tbody>
+              <tr>
+                <td style={styles.label}>First Name</td>
+                <td>:</td>
+                <td style={styles.data}>{data[0].first_name}</td>
+              </tr>
+              <tr>
+                <td style={styles.label}>Middle Name</td>
+                <td>:</td>
+                <td  style={styles.data}>{data[0].middle_name}</td>
+              </tr>
+              <tr>
+                <td style={styles.label}>Last Name</td>
+                <td>:</td>
+                <td style={styles.data}>{data[0].last_name}</td>
+              </tr>
+              <tr>
+                <td style={styles.label}>Department</td>
+                <td>:</td>
+                <td style={styles.data}>{data[0].department}</td>
+              </tr>
+              <tr>
+                <td style={styles.label}>Title</td>
+                <td>:</td>
+                <td style={styles.data}>{data[0].title}</td>
+              </tr>
+              <tr>
+                <td style={styles.label}>Location</td>
+                <td>:</td>
+                <td style={styles.data}>{data[0].location}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       ) : (
         "Loading..."
@@ -50,15 +71,23 @@ const styles = {
   button: {
     padding: "1vw",
   },
-  detailsView:{
-      display:'inline-block',
-      flexWrap:'wrap',
-      width:'15vw',
-      padding:'2vh'
+  detailsView: {
+    display: "inline-block",
+    flexWrap: "wrap",
+    width: "15vw",
+    padding: "2vh",
   },
-  label:{
-      fontWeight:'bold',
-      paddingTop:'2vh'
-      
+  label: {
+    fontWeight: "bold",
+    backgroundColor:'',
+    textAlign:'right'
+  },
+  table:{
+    borderSpacing: '0px 4.5vh'
+  },
+  data:{
+    backgroundColor:'',
+    paddingLeft:'1.5vw',
+    textAlign:'left'
   }
 };

@@ -21,7 +21,7 @@ app.get("/employees", (req, res) => {
     query += " AND location.city = " + "'" + req.query.location + "'";
   if (req.query.department != "" && req.query.department != undefined)
     query += " AND department.name = " + "'" + req.query.department + "'";
-  if (req.query.department != "" && req.query.department != undefined)
+  if (req.query.title != "" && req.query.title != undefined)
     query += " AND job.title = " + "'" + req.query.title + "'";
 
   pool.query(query, (error, results) => {
