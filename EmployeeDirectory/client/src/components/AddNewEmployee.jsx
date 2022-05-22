@@ -11,8 +11,10 @@ export default function AddNewEmployee() {
   const [title, setTitle] = useState("");
   const [location, setLocation] = useState("");
   const [departmentList, setDepartmentList] = useState([]);
+  const [locationList, setLocationList] = useState([]);
   const [deptIdMap,setDeptIdMap] = useState({})
   const [titleList, setTitleList] = useState([]);
+  const [dataReady,setDataReady] = useState(false)
 
   const alert = useAlert();
 
@@ -32,7 +34,7 @@ export default function AddNewEmployee() {
       });
   };
 
-  const getDepartments = ()=>{
+  const getDepartments = async ()=>{
     axios
       .get("http://localhost:3005/departments")
       .then((resp) => {
@@ -53,15 +55,29 @@ export default function AddNewEmployee() {
         setTitleList(resp.data)
       });
   }
-
-  useEffect(()=>{
-    getDepartments()
+  
+  const getLocations = async ()=>{
+    axios
+      .get("http://localhost:3005/locations")
+      .then((resp) => {
+        console.log(resp.data)
+        setLocationList(resp.data)
+      });
+  }
+  const updateData = async()=>{
+    await getDepartments()
     //getJobs()
+    await getLocations()
+    setDataReady(true)
+  }
+  useEffect(()=>{
+     updateData()
   },[])
 
   return (
     <div style={styles.container}>
       <div style={styles.headerText}>Add New Employee</div>
+      {dataReady ?
       <div style={styles.addNewEmployeeForm}>
         <form onSubmit={addNewEmployee}>
           <label style={styles.label}>First Name:</label>
@@ -113,10 +129,21 @@ export default function AddNewEmployee() {
               ? titleList.map((val) => <option key={val.id}>{val.name}</option>)
               : true}
           </datalist>
+          <label style={styles.label}>Location:</label>
+          <input
+            list='locationList'
+            onChange={(e) => setLocationList(e)}
+            style={styles.textField}
+          />
+          <datalist id='locationList' style={styles.nameDropDown}>
+            {locationList.length > 0
+              ? locationList.map((val) => <option key={val.id}>{val.city}</option>)
+              : true}
+          </datalist>
 
           <input style={styles.submitButton} type='submit' value='Add' />
         </form>
-      </div>
+      </div>: 'Loading...'}
     </div>
   );
 }

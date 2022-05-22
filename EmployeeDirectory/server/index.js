@@ -71,9 +71,20 @@ app.get("/departments", (req, res) => {
     })
 })
 
-// Fetch departments
+// Fetch jobs
 app.get("/jobs", (req, res) => {
     const query = 'SELECT id,title FROM jobs'
+    pool.query(query, (error, results) => {
+        if (error) {
+            throw error
+        }
+        res.status(200).json(results.rows).end()
+    })
+})
+
+// Fetch locations
+app.get("/locations", (req, res) => {
+    const query = 'SELECT id,city FROM location'
     pool.query(query, (error, results) => {
         if (error) {
             throw error
