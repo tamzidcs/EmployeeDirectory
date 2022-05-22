@@ -1,5 +1,10 @@
+import { useNavigate } from 'react-router-dom'; 
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Link } from 'react-router-dom';
+
 export default function Table(props) {
     console.log(props)
+    
     return (
         <div style={styles.tableView}>
             <table style={styles.table}>
@@ -21,7 +26,7 @@ export default function Table(props) {
                                 <td>{rows.department}</td>
                                 <td>{rows.title}</td>
                                 <td>{rows.location}</td>
-                                <td><button>Details</button></td>
+                                <td><Link to="/employee-details-page" state={{ id:rows.id }}>Details</Link></td>
                             </tr>
                         ))
                     }

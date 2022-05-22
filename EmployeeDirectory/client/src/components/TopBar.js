@@ -4,7 +4,7 @@ export default function TopBar() {
     return (
         <div style={styles.topbar}>
             <div style={styles.topbarLinks}><Link to='/'>Home</Link></div>
-            <div style={styles.topbarLinks}><Link to='/AddNewEmployee'>Add New Employee</Link></div>
+            <div style={styles.topbarLinks}><Link to='/add-new-employee'>Add New Employee</Link></div>
         </div>
     );
 }
