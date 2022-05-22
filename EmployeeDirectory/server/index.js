@@ -10,12 +10,20 @@ app.use(cors());
 
 // Fetch
 app.get("/employees", (req, res) => {
-  const query =
-    'SELECT employee.id,employee.first_name,employee.middle_name,employee.last_name,'+
-    'department.name AS department,location.city AS location,job.title  FROM employee,department,'+
-    'emp_dept,emp_location,location,job,emp_job where department.id = emp_dept.dept_id AND '+
-    'employee.id = emp_dept.emp_id AND emp_location.emp_id = employee.id AND emp_location.location_id = location.id AND '+
-    'emp_job.job_id = job.id AND emp_job.emp_id = employee.id';
+  let query =
+    "SELECT employee.id,employee.first_name,employee.middle_name,employee.last_name," +
+    "department.name AS department,location.city AS location,job.title  FROM employee,department," +
+    "emp_dept,emp_location,location,job,emp_job where department.id = emp_dept.dept_id AND " +
+    "employee.id = emp_dept.emp_id AND emp_location.emp_id = employee.id AND emp_location.location_id = location.id AND " +
+    "emp_job.job_id = job.id AND emp_job.emp_id = employee.id";
+
+  if (req.query.location != "" && req.query.location != undefined)
+    query += " AND location.city = " + "'" + req.query.location + "'";
+  if (req.query.department != "" && req.query.department != undefined)
+    query += " AND department.name = " + "'" + req.query.department + "'";
+  if (req.query.department != "" && req.query.department != undefined)
+    query += " AND job.title = " + "'" + req.query.title + "'";
+
   pool.query(query, (error, results) => {
     if (error) {
       throw error;
@@ -26,19 +34,20 @@ app.get("/employees", (req, res) => {
 
 // Fetch
 app.get("/employees/:id", (req, res) => {
-    const query =
-      'SELECT employee.id,employee.first_name,employee.middle_name,employee.last_name,'+
-      'department.name AS department,location.city AS location,job.title  FROM employee,department,'+
-      'emp_dept,emp_location,location,job,emp_job where department.id = emp_dept.dept_id AND '+
-      'employee.id = emp_dept.emp_id AND emp_location.emp_id = employee.id AND emp_location.location_id = location.id AND '+
-      'emp_job.job_id = job.id AND emp_job.emp_id = employee.id AND employee.id ='+req.params.id;
-    pool.query(query, (error, results) => {
-      if (error) {
-        throw error;
-      }
-      res.status(200).json(results.rows).end();
-    });
+  const query =
+    "SELECT employee.id,employee.first_name,employee.middle_name,employee.last_name," +
+    "department.name AS department,location.city AS location,job.title  FROM employee,department," +
+    "emp_dept,emp_location,location,job,emp_job where department.id = emp_dept.dept_id AND " +
+    "employee.id = emp_dept.emp_id AND emp_location.emp_id = employee.id AND emp_location.location_id = location.id AND " +
+    "emp_job.job_id = job.id AND emp_job.emp_id = employee.id AND employee.id =" +
+    req.params.id;
+  pool.query(query, (error, results) => {
+    if (error) {
+      throw error;
+    }
+    res.status(200).json(results.rows).end();
   });
+});
 
 const insertIntoemployeeAuthor = async (employeeId, authorId) => {
   query =
@@ -87,16 +96,16 @@ const insertIntoEmpLocation = async (empid, locationId) => {
 };
 
 const insertIntoEmpJob = async (empid, titleId) => {
-    console.log(empid, titleId);
-    let query =
-      "INSERT INTO emp_job(emp_id,job_id) VALUES('" +
-      empid +
-      "','" +
-      titleId +
-      "') RETURNING *";
-    const results = await pool.query(query);
-    return results;
-  };
+  console.log(empid, titleId);
+  let query =
+    "INSERT INTO emp_job(emp_id,job_id) VALUES('" +
+    empid +
+    "','" +
+    titleId +
+    "') RETURNING *";
+  const results = await pool.query(query);
+  return results;
+};
 
 // Add employee
 app.post("/employees", async (req, res) => {

@@ -16,11 +16,10 @@ const Landing = () => {
     </div>
   );
 };
-function App() {
 
+function App() {
   return (
     <div className='App'>
-      
         <Router>
           <Header />
           <TopBar />
@@ -33,7 +32,6 @@ function App() {
             <Route path='/add-new-employee' element={<AddNewEmployee />} />
           </Routes>
         </Router>
-      
     </div>
   );
 }
