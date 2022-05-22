@@ -8,7 +8,8 @@ export default function Table(props) {
                         <th style={styles.tableHeaderStyle}>First Name</th>
                         <th style={styles.tableHeaderStyle}>Last Name</th>
                         <th style={styles.tableHeaderStyle}>Department</th>
-                        
+                        <th style={styles.tableHeaderStyle}>Title</th>
+                        <th style={styles.tableHeaderStyle}>Location</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -18,6 +19,8 @@ export default function Table(props) {
                                 <td>{rows.first_name}</td>
                                 <td>{rows.last_name}</td>
                                 <td>{rows.department}</td>
+                                <td>{rows.title}</td>
+                                <td>{rows.location}</td>
                                 <td><button>Details</button></td>
                             </tr>
                         ))

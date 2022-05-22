@@ -8,11 +8,14 @@ export default function AddNewEmployee() {
   const [middleName, setMiddleName] = useState("");
   const [lastName, setLastName] = useState("");
   const [departmentId, setDepartmentId] = useState("");
-  const [title, setTitle] = useState("");
+  const [locationId, setLocationId] = useState("");
+  const [titleId, setTitleId] = useState("");
   const [location, setLocation] = useState("");
   const [departmentList, setDepartmentList] = useState([]);
   const [locationList, setLocationList] = useState([]);
   const [deptIdMap,setDeptIdMap] = useState({})
+  const [titleIdMap,setTitleIdMap] = useState({})
+  const [locationIdMap,setLocationIdMap] = useState({})
   const [titleList, setTitleList] = useState([]);
   const [dataReady,setDataReady] = useState(false)
 
@@ -26,7 +29,9 @@ export default function AddNewEmployee() {
         firstName: firstName,
         middleName: middleName,
         lastName: lastName,
-        departmentId:departmentId
+        departmentId:departmentId,
+        locationId:locationId,
+        titleId:titleId
       })
       .then((resp) => {
         if (resp.data.message === "employee added")
@@ -52,6 +57,12 @@ export default function AddNewEmployee() {
     axios
       .get("http://localhost:3005/jobs")
       .then((resp) => {
+        console.log('jobs',resp.data)
+        let map = {}
+        resp.data.forEach(elem=>{
+          map[elem.title] = elem.id 
+        })
+        setTitleIdMap(map)
         setTitleList(resp.data)
       });
   }
@@ -61,12 +72,17 @@ export default function AddNewEmployee() {
       .get("http://localhost:3005/locations")
       .then((resp) => {
         console.log(resp.data)
+        let map = {}
+        resp.data.forEach(elem=>{
+          map[elem.city] = elem.id 
+        })
+        setLocationIdMap(map)
         setLocationList(resp.data)
       });
   }
   const updateData = async()=>{
     await getDepartments()
-    //getJobs()
+    await getJobs()
     await getLocations()
     setDataReady(true)
   }
@@ -121,18 +137,18 @@ export default function AddNewEmployee() {
           <input
             
             list='titleList'
-            onChange={(e) => setTitleList(e)}
+            onChange={(e) => setTitleId(titleIdMap[e.target.value])}
             style={styles.textField}
           />
           <datalist id='titleList' style={styles.nameDropDown}>
             {titleList.length > 0
-              ? titleList.map((val) => <option key={val.id}>{val.name}</option>)
+              ? titleList.map((val) => <option key={val.id}>{val.title}</option>)
               : true}
           </datalist>
           <label style={styles.label}>Location:</label>
           <input
             list='locationList'
-            onChange={(e) => setLocationList(e)}
+            onChange={(e) => setLocationId(locationIdMap[e.target.value])}
             style={styles.textField}
           />
           <datalist id='locationList' style={styles.nameDropDown}>
