@@ -24,12 +24,30 @@ app.get("/employees", (req, res) => {
   if (req.query.title != "" && req.query.title != undefined)
     query += " AND job.title = " + "'" + req.query.title + "'";
 
+  if (req.query.pageLimit != "" && req.query.pageLimit != undefined)
+    query += " LIMIT " + "'" + req.query.pageLimit + "'";
+  
+  if (req.query.skip != "" && req.query.skip != undefined)
+    query += " OFFSET " + "'" + req.query.skip + "'";
+
   pool.query(query, (error, results) => {
     if (error) {
       throw error;
     }
-    res.status(200).json(results.rows).end();
+    let resp = {}
+    resp['employees'] = results.rows
+
+    query = 'SELECT COUNT(id) from EMPLOYEE'
+    pool.query(query, (error, results) => {
+      if (error) {
+        throw error;
+      }
+        resp['count'] = results.rows[0]['count']
+        res.status(200).json(resp).end();
+    });
+    
   });
+
 });
 
 // Fetch
