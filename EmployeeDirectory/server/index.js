@@ -80,7 +80,7 @@ const insertIntoEmpLocation = async (empid, locationId) => {
     empid +
     "','" +
     locationId +
-    "') RETURNING *";
+    "')";
   const results = await pool.query(query);
   return results;
 };
@@ -112,16 +112,58 @@ app.post("/employees", async (req, res) => {
   res.status(200).json({ message: "employee added" }).end();
 });
 
+const deleteInsertEmpDept = async(empId,deptId)=>{
+  
+  let query =
+    "DELETE FROM emp_dept where emp_id='" +
+    empId +
+    "') RETURNING *";
+  const results = await pool.query(query);
+  await insertIntoEmpDept(empId,deptId);
+  return results;
+}
+
+const deleteInsertEmpJob = async(empId,jobId)=>{
+  
+  let query =
+    "DELETE FROM emp_job where emp_id='" +
+    empId +
+    "'";
+  const results = await pool.query(query);
+  await insertIntoEmpJob(empId,jobId);
+
+  return results;
+}
+
+const deleteInsertEmpLocation = async(empId,locationId)=>{
+  console.log('del emp loc')
+  let query =
+    "DELETE FROM emp_location where emp_id="+empId
+  const results = await pool.query(query);
+  await insertIntoEmpLocation(empId,locationId);
+  return results;
+}
 
 // Update
 app.put("/employees", async (req, res) => {
-  console.log(req.body)
+  console.log('loc_id',req.body.locationId)
   let query =
     "UPDATE employee set first_name='" +req.body.firstName +"',middle_name='"+req.body.middleName +"',"
     +"last_name='"+req.body.lastName +"'"+
     "where id =" +
     req.body.employeeId;
-  await pool.query(query);
+    
+    await pool.query(query);
+
+    if (req.body.locationId)
+      deleteInsertEmpLocation(req.body.employeeId,req.body.locationId)
+
+    if (req.body.departmentId != "" && req.query.departmentId != undefined)
+      deleteInsertEmpDept(req.body.employeeId,req.body.departmentId)
+    
+    if (req.body.titleId != "" && req.query.titleId != undefined)
+      deleteInsertEmpJob(req.body.employeeId,req.body.titleId)
+    
 });
 
 // Delete
