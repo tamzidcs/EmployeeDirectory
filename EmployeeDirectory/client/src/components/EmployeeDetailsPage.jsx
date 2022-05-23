@@ -47,7 +47,6 @@ export default function EmployeeDetailsPage(props) {
   };
 
   const updateEmployee = (id) => {
-    
     axios
       .put("http://localhost:3005/employees", {
         employeeId: id,
@@ -61,6 +60,7 @@ export default function EmployeeDetailsPage(props) {
       .then((resp) => {
         console.log("data", resp.data);
         setData(resp.data);
+        alert('Employee Updated')
       });
   };
 

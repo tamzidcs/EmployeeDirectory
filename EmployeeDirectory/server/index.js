@@ -113,25 +113,20 @@ app.post("/employees", async (req, res) => {
 });
 
 const deleteInsertEmpDept = async(empId,deptId)=>{
-  
+
   let query =
-    "DELETE FROM emp_dept where emp_id='" +
-    empId +
-    "') RETURNING *";
+    "DELETE FROM emp_dept where emp_id="+empId
   const results = await pool.query(query);
   await insertIntoEmpDept(empId,deptId);
   return results;
 }
 
 const deleteInsertEmpJob = async(empId,jobId)=>{
-  
   let query =
-    "DELETE FROM emp_job where emp_id='" +
-    empId +
-    "'";
+    "DELETE FROM emp_job where emp_id="+empId
   const results = await pool.query(query);
   await insertIntoEmpJob(empId,jobId);
-
+  return results;
   return results;
 }
 
@@ -158,10 +153,10 @@ app.put("/employees", async (req, res) => {
     if (req.body.locationId)
       deleteInsertEmpLocation(req.body.employeeId,req.body.locationId)
 
-    if (req.body.departmentId != "" && req.query.departmentId != undefined)
+    if (req.body.departmentId)
       deleteInsertEmpDept(req.body.employeeId,req.body.departmentId)
     
-    if (req.body.titleId != "" && req.query.titleId != undefined)
+    if (req.body.titleId)
       deleteInsertEmpJob(req.body.employeeId,req.body.titleId)
     
 });
