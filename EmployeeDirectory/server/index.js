@@ -49,16 +49,6 @@ app.get("/employees/:id", (req, res) => {
   });
 });
 
-const insertIntoemployeeAuthor = async (employeeId, authorId) => {
-  query =
-    "INSERT INTO employee_author(employee_id,author_id) VALUES('" +
-    employeeId +
-    "'," +
-    authorId +
-    ")";
-  await pool.query(query);
-};
-
 const insertIntoemployee = async (firstName, middleName, lastName) => {
   let query =
     "INSERT INTO employee(first_name,middle_name,last_name) VALUES('" +
@@ -122,13 +112,15 @@ app.post("/employees", async (req, res) => {
   res.status(200).json({ message: "employee added" }).end();
 });
 
+
 // Update
 app.put("/employees", async (req, res) => {
+  console.log(req.body)
   let query =
-    "UPDATE employee set title='" +
-    req.body.title +
-    "'year=2009 where employee_id=" +
-    req.body.employee_id;
+    "UPDATE employee set first_name='" +req.body.firstName +"',middle_name='"+req.body.middleName +"',"
+    +"last_name='"+req.body.lastName +"'"+
+    "where id =" +
+    req.body.employeeId;
   await pool.query(query);
 });
 

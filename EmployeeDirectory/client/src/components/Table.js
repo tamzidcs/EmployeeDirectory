@@ -28,7 +28,7 @@ export default function Table(props) {
                                 <td>{rows.location}</td>
                                 <td><Link to="/employee-details-page" state={{ id:rows.id }}>Details</Link></td>
                             </tr>
-                        )) : <tr><td colspan='5' style={styles.noEmployeeLabel}>No employee in database.</td></tr>
+                        )) : <tr><td colSpan='5' style={styles.noEmployeeLabel}>No employee in database.</td></tr>
                     }
                 </tbody>
             </table>
