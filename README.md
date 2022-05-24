@@ -27,3 +27,6 @@
 
 3. Run "npm install" in server folder.
 4. Run "npm start"
+
+# How to use:
+   Read the features.txt file.
