@@ -1,7 +1,9 @@
 const express = require("express");
 const cors = require("cors");
 const fs = require("fs");
-let { pool: pool, sequelize } = require("./db");
+let { pool: pool ,insertIntoEmpDept,insertIntoEmpLocation,insertIntoEmpJob,insertIntoemployee,
+  deleteInsertEmpDept,deleteInsertEmpLocation,deleteInsertEmpJob
+} = require("./database/db");
 const PORT = process.env.PORT || 3005;
 
 const app = express();
@@ -42,7 +44,7 @@ app.get("/employees", (req, res) => {
       if (error) {
         throw error;
       }
-        resp['count'] = results.rows[0]['count']
+        resp['total_employee'] = results.rows[0]['count']
         res.status(200).json(resp).end();
     });
     
@@ -61,59 +63,13 @@ app.get("/employees/:id", (req, res) => {
     req.params.id;
   pool.query(query, (error, results) => {
     if (error) {
+      res.status(500).json({message:'failed to retrieve emplyee'}).end();
       throw error;
     }
     res.status(200).json(results.rows).end();
   });
 });
 
-const insertIntoemployee = async (firstName, middleName, lastName) => {
-  let query =
-    "INSERT INTO employee(first_name,middle_name,last_name) VALUES('" +
-    firstName +
-    "','" +
-    middleName +
-    "','" +
-    lastName +
-    "') RETURNING *";
-  const results = await pool.query(query);
-  return results.rows[0].id;
-};
-
-const insertIntoEmpDept = async (empid, deptId) => {
-  console.log(empid, deptId);
-  let query =
-    "INSERT INTO emp_dept(emp_id,dept_id) VALUES('" +
-    empid +
-    "','" +
-    deptId +
-    "') RETURNING *";
-  const results = await pool.query(query);
-  return results;
-};
-const insertIntoEmpLocation = async (empid, locationId) => {
-  console.log(empid, locationId);
-  let query =
-    "INSERT INTO emp_location(emp_id,location_id) VALUES('" +
-    empid +
-    "','" +
-    locationId +
-    "')";
-  const results = await pool.query(query);
-  return results;
-};
-
-const insertIntoEmpJob = async (empid, titleId) => {
-  console.log(empid, titleId);
-  let query =
-    "INSERT INTO emp_job(emp_id,job_id) VALUES('" +
-    empid +
-    "','" +
-    titleId +
-    "') RETURNING *";
-  const results = await pool.query(query);
-  return results;
-};
 
 // Add employee
 app.post("/employees", async (req, res) => {
@@ -127,35 +83,10 @@ app.post("/employees", async (req, res) => {
   await insertIntoEmpDept(id, req.body.departmentId);
   await insertIntoEmpLocation(id, req.body.locationId);
   await insertIntoEmpJob(id, req.body.titleId);
-  res.status(200).json({ message: "employee added" }).end();
+  res.status(200).json({ message: "New employee added" }).end();
 });
 
-const deleteInsertEmpDept = async(empId,deptId)=>{
 
-  let query =
-    "DELETE FROM emp_dept where emp_id="+empId
-  const results = await pool.query(query);
-  await insertIntoEmpDept(empId,deptId);
-  return results;
-}
-
-const deleteInsertEmpJob = async(empId,jobId)=>{
-  let query =
-    "DELETE FROM emp_job where emp_id="+empId
-  const results = await pool.query(query);
-  await insertIntoEmpJob(empId,jobId);
-  return results;
-  return results;
-}
-
-const deleteInsertEmpLocation = async(empId,locationId)=>{
-  console.log('del emp loc')
-  let query =
-    "DELETE FROM emp_location where emp_id="+empId
-  const results = await pool.query(query);
-  await insertIntoEmpLocation(empId,locationId);
-  return results;
-}
 
 // Update
 app.put("/employees", async (req, res) => {
@@ -177,12 +108,14 @@ app.put("/employees", async (req, res) => {
     if (req.body.titleId)
       deleteInsertEmpJob(req.body.employeeId,req.body.titleId)
     
+    res.status(200).json({ message: "Employee updated" }).end();
 });
 
 // Delete
 app.delete("/employees", async (req, res) => {
   let query = "DELETE FROM employee where employee_id=" + req.body.employee_id;
   await pool.query(query);
+  res.status(200).json({ message: "Employee deleted" }).end();
 });
 
 // Fetch departments
@@ -217,6 +150,7 @@ app.get("/locations", (req, res) => {
     res.status(200).json(results.rows).end();
   });
 });
+
 app.listen(PORT, () => {
   console.log(`Server listening  on ${PORT}`);
 });

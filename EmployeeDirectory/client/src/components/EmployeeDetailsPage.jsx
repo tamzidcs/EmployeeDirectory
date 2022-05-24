@@ -106,7 +106,6 @@ export default function EmployeeDetailsPage(props) {
       });
   }
 
-
   const updateData = async()=>{
     await getDepartments()
     await getJobs()
@@ -121,6 +120,8 @@ export default function EmployeeDetailsPage(props) {
     getEmployee(localStorage.getItem("emp_id"));
     updateData()
   }, []);
+
+  
   return (
     <div style={styles.container}>
       {data && dataReady? (

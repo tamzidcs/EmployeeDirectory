@@ -9,7 +9,7 @@ export default function EmployeeListView() {
     const [department,setDepartment] = useState('')
     const [title,setTitle] = useState('')
     const [page,setPage] = useState(1)
-    const [pageLimit,setPageLimit] = useState(2)
+    const [pageLimit,setPageLimit] = useState(10)
     const [totalPage,setTotalPage] = useState(10)
     const [data, setData] = useState([])
     
@@ -25,7 +25,9 @@ export default function EmployeeListView() {
         }}).then(resp => {
                 console.log('data',resp.data)
                 setData(resp.data.employees)
-                setTotalPage(Math.ceil(resp.data.count/pageLimit))
+                if(resp.data.total_employee == 0 )
+                    setPage(0)
+                setTotalPage(Math.ceil(resp.data.total_employee/pageLimit))
             }) 
     }
 
