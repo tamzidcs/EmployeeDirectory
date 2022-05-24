@@ -1,5 +1,6 @@
 import { useState,useEffect } from "react";
 import { useAlert } from "react-alert";
+import { useForm } from "react-hook-form";
 
 const axios = require("axios");
 
@@ -20,10 +21,12 @@ export default function AddNewEmployee() {
   const [dataReady,setDataReady] = useState(false)
 
   const alert = useAlert();
+  const { register, handleSubmit, watch, formState: { errors },setValue } = useForm();
 
   // Add new employee
-  const addNewEmployee = (event) => {
+  const addNewEmployee = (data,event) => {
     event.preventDefault();
+    console.log(departmentId,lastName)
     axios
       .post("http://localhost:3005/employees", {
         firstName: firstName,
@@ -80,6 +83,14 @@ export default function AddNewEmployee() {
         setLocationList(resp.data)
       });
   }
+  
+  const updateState = async(state,value)=>{
+    if(state =='department')  {
+      console.log('...deptid')
+      setDepartmentId(value)
+    }
+  }
+
   const updateData = async()=>{
     await getDepartments()
     await getJobs()
@@ -95,15 +106,18 @@ export default function AddNewEmployee() {
       <div style={styles.headerText}>Add New Employee</div>
       {dataReady ?
       <div style={styles.addNewEmployeeForm}>
-        <form onSubmit={addNewEmployee}>
+        <form onSubmit={handleSubmit(addNewEmployee)}>
           <label style={styles.label}>First Name:</label>
           <input
-            type='text'
-            name='first_name'
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
+          {...register("first_name", { required: true, maxLength: 20 })}
+            onChange={(e) => {
+              setFirstName(e.target.value)
+              setValue('first_name',e.target.value)
+            }}
             style={styles.textField}
+            
           />
+           <span style={styles.error}>{errors.first_name && <span>First name is required</span>}</span>
           <label style={styles.label}>Middle Name:</label>
           <input
             type='text'
@@ -114,18 +128,27 @@ export default function AddNewEmployee() {
           />
           <label style={styles.label}>Last Name:</label>
           <input
-            type='text'
-            name='last_name'
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
+          {...register("last_name", { required: true, maxLength: 20 })}
+            onChange={(e) => {
+              setLastName(e.target.value)
+              setValue('last_name',e.target.value)
+            }}
             style={styles.textField}
+            
           />
+           <span style={styles.error}>{errors.last_name && <span>Last name is required</span>}</span>
           <label style={styles.label}>Department:</label>
           <input
             list='departmentList'
-            onChange={(e) => setDepartmentId(deptIdMap[e.target.value])}
+            {...register("department", { required: true})}
+            onChange={(e) => {
+              setValue('department',e.target.value)
+              setDepartmentId(deptIdMap[e.target.value])
+            }}
+           
             style={styles.textField}
           />
+         
           <datalist id='departmentList' style={styles.nameDropDown}>
             {departmentList.length > 0
               ? departmentList.map((val) => (
@@ -133,24 +156,37 @@ export default function AddNewEmployee() {
                 ))
               : true}
           </datalist>
+          <span style={styles.error}>{errors.department && <span>Department is required</span>}</span>
           <label style={styles.label}>Title:</label>
-          <input
-            
+           <input
             list='titleList'
-            onChange={(e) => setTitleId(titleIdMap[e.target.value])}
+            {...register("title", { required: true})}
+            onChange={(e) => {
+              setValue('title',e.target.value)
+              setTitleId(titleIdMap[e.target.value])
+            }}
+           
             style={styles.textField}
           />
+          <span style={styles.error}>{errors.title && <span>Title is required</span>}</span>
           <datalist id='titleList' style={styles.nameDropDown}>
             {titleList.length > 0
               ? titleList.map((val) => <option key={val.id}>{val.title}</option>)
               : true}
           </datalist>
           <label style={styles.label}>Location:</label>
-          <input
-            list='locationList'
-            onChange={(e) => setLocationId(locationIdMap[e.target.value])}
+         
+           <input
+             list='locationList'
+             {...register("location", { required: true})}
+            onChange={(e) => {
+              setValue('location',e.target.value)
+              setLocationId(locationIdMap[e.target.value])
+            }}
+            
             style={styles.textField}
           />
+           <span style={styles.error}>{errors.location && <span>Location is required</span>}</span>
           <datalist id='locationList' style={styles.nameDropDown}>
             {locationList.length > 0
               ? locationList.map((val) => <option key={val.id}>{val.city}</option>)
@@ -197,6 +233,11 @@ const styles = {
     justifyContent: "left",
     width: "25vw",
     paddingRight: "1vw",
+  },
+  error:{
+    float:'left',
+    color:'red',
+    paddingBottom:'2vh'
   }
   
 };

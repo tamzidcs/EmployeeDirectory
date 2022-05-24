@@ -20,7 +20,9 @@ const styles = {
   },
   button:{
       marginLeft:'2vw',
-      marginRight:'2vw'
+      marginRight:'2vw',
+      paddingLeft:'2vw',
+      paddingRight:'2vw'
   }
   
 };
