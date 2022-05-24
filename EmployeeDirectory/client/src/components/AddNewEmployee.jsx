@@ -48,8 +48,7 @@ export default function AddNewEmployee() {
       .then((resp) => {
         if (resp.data.message === "New employee added")
           navigate('/')
-          alert.show("New Employee Added.");
-          
+          alert.show("New Employee Added."); 
       });
   };
 
@@ -95,7 +94,19 @@ export default function AddNewEmployee() {
     await getLocations();
     setDataReady(true);
   };
+  const getRandomNames = async()=>{
+    await axios.get('https://randomuser.me/api')
+            .then(res => {
+                console.log(res.data)
+                setFirstName(res.data.results[0].name.first)
+                setLastName(res.data.results[0].name.last)
+                setValue("first_name",res.data.results[0].name.first);
+                setValue("last_name",res.data.results[0].name.last);
+            })
+            .catch(err => console.log(err))
+  }
   useEffect(() => {
+    getRandomNames()
     updateData();
   }, []);
 
@@ -112,19 +123,13 @@ export default function AddNewEmployee() {
                 setFirstName(e.target.value);
                 setValue("first_name", e.target.value);
               }}
+              value={firstName}
               style={styles.textField}
             />
             <span style={styles.error}>
               {errors.first_name && <span>First name is required</span>}
             </span>
-            <label style={styles.label}>Middle Name:</label>
-            <input
-              type='text'
-              name='middle_name'
-              value={middleName}
-              onChange={(e) => setMiddleName(e.target.value)}
-              style={styles.textField}
-            />
+           
             <label style={styles.label}>Last Name:</label>
             <input
               {...register("last_name", { required: true, maxLength: 20 })}
@@ -132,6 +137,7 @@ export default function AddNewEmployee() {
                 setLastName(e.target.value);
                 setValue("last_name", e.target.value);
               }}
+              value={lastName}
               style={styles.textField}
             />
             <span style={styles.error}>
@@ -145,6 +151,7 @@ export default function AddNewEmployee() {
                 setValue("department", e.target.value);
                 setDepartmentId(deptIdMap[e.target.value]);
               }}
+              
               style={styles.textField}
             />
 

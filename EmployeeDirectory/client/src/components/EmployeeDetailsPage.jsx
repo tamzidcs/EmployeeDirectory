@@ -121,7 +121,7 @@ export default function EmployeeDetailsPage(props) {
     updateData()
   }, []);
 
-  
+
   return (
     <div style={styles.container}>
       {data && dataReady? (
@@ -148,14 +148,7 @@ export default function EmployeeDetailsPage(props) {
                 onChange={(e) => setFirstName(e.target.value)}
                 style={styles.textField}
               />
-              <label style={styles.label}>Middle Name:</label>
-              <input
-                type='text'
-                name='middle_name'
-                value={middleName}
-                onChange={(e) => setMiddleName(e.target.value)}
-                style={styles.textField}
-              />
+             
               <label style={styles.label}>Last Name:</label>
               <input
                 type='text'
@@ -231,11 +224,7 @@ export default function EmployeeDetailsPage(props) {
                   <td>:</td>
                   <td style={styles.data}>{data[0].first_name}</td>
                 </tr>
-                <tr>
-                  <td style={styles.label}>Middle Name</td>
-                  <td>:</td>
-                  <td style={styles.data}>{data[0].middle_name}</td>
-                </tr>
+               
                 <tr>
                   <td style={styles.label}>Last Name</td>
                   <td>:</td>
