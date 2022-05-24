@@ -1,1 +1,27 @@
+Features
+----------------------------------------------------
+
+1. View list of employees in the database.
+2. Add a new employee.
+3. Filter employees by department, location or title.
+4. Edit employee details inlcuding updating department, location or title.
+5. Pagination for employee list.
+
+
+Special Instruction
+-------------------------------------------------------
+
+1. Department, location or title can be choosen from drop down.
+2. Typing a value will display available options for these three fields,
+
+
+Limitations and bugs
+--------------------------------------------------------
+1. No delete option.
+2. Limited fields for a employee.
+3. Pagination does not work when filters are applied.
+4. No search option except filtering.
+5. API has limited exception handling.
+6. No tests implemented.
+7. No Profile picture.
 
