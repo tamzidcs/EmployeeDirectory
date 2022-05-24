@@ -6,7 +6,7 @@
 
 1. run "psql -U username -d database_name -f employee_directory.sql" to import the db
 
-employee_directory.sql file is in employee_directory folder under the root dir.
+    employee_directory.sql file is in employee_directory folder under the root dir.
 
 # Client:
 
