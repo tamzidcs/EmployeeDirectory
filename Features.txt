@@ -13,13 +13,15 @@ Special Instruction
 -------------------------------------------------------
 
 1. Department, location or title can be choosen from drop down.
-2. Typing a value will display available options for these three fields,
+2. Typing a value will display available options for these three fields.
+3. To see all availble options for these three fields, erase the value or type
+   one of the options.
 
 
 Limitations and bugs
 --------------------------------------------------------
 1. No delete option.
-2. Limited fields for a employee.
+2. Limited fields for an employee.
 3. Pagination does not work when filters are applied.
 4. No search option except filtering.
 5. API has limited exception handling.
