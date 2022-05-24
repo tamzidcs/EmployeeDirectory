@@ -66,9 +66,10 @@ const deleteInsertEmpJob = async(empId,jobId)=>{
   let query =
     "DELETE FROM emp_job where emp_id="+empId
   const results = await pool.query(query);
+  console.log(results)
   await insertIntoEmpJob(empId,jobId);
   return results;
-  return results;
+
 }
 
 const deleteInsertEmpLocation = async(empId,locationId)=>{
