@@ -5,7 +5,8 @@ Features
 2. Add a new employee.
 3. Filter employees by department, location or title.
 4. Edit employee details inlcuding updating department, location or title.
-5. Pagination for employee list.
+5. Pagination for employees list.
+6. RandomAPI is used for filling up names of employees when adding.
 
 
 Special Instruction
