@@ -1,39 +1,18 @@
 import { useState, useEffect } from "react";
-import { useAlert } from "react-alert";
+
 
 const axios = require("axios");
 
 export default function FilterView(props) {
-  const [departmentId, setDepartmentId] = useState("");
-  const [locationId, setLocationId] = useState("");
-  const [titleId, setTitleId] = useState("");
+ 
   const [location, setLocation] = useState("");
   const [department, setDepartment] = useState("");
   const [title, setTitle] = useState("");
   const [departmentList, setDepartmentList] = useState([]);
   const [locationList, setLocationList] = useState([]);
-  const [deptIdMap, setDeptIdMap] = useState({});
-  const [titleIdMap, setTitleIdMap] = useState({});
-  const [locationIdMap, setLocationIdMap] = useState({});
   const [titleList, setTitleList] = useState([]);
   const [dataReady, setDataReady] = useState(false);
 
-  const alert = useAlert();
-
-  // Add new employee
-  const addNewEmployee = (event) => {
-    event.preventDefault();
-    axios
-      .post("http://localhost:3005/employees", {
-        departmentId: departmentId,
-        locationId: locationId,
-        titleId: titleId,
-      })
-      .then((resp) => {
-        if (resp.data.message === "employee added")
-          alert.show("New Employee Added.");
-      });
-  };
 
   const getDepartments = async () => {
     axios.get("http://localhost:3005/departments").then((resp) => {
@@ -42,7 +21,6 @@ export default function FilterView(props) {
       resp.data.forEach((elem) => {
         map[elem.name] = elem.id;
       });
-      setDeptIdMap(map);
       setDepartmentList(resp.data);
     });
   };
@@ -54,7 +32,6 @@ export default function FilterView(props) {
       resp.data.forEach((elem) => {
         map[elem.title] = elem.id;
       });
-      setTitleIdMap(map);
       setTitleList(resp.data);
     });
   };
@@ -66,7 +43,6 @@ export default function FilterView(props) {
       resp.data.forEach((elem) => {
         map[elem.city] = elem.id;
       });
-      setLocationIdMap(map);
       setLocationList(resp.data);
     });
   };
@@ -77,8 +53,8 @@ export default function FilterView(props) {
     setDataReady(true);
   };
   useEffect(() => {
-    updateData();
-  }, []);
+    updateData(); 
+  },[]);
 
   return (
     <div style={styles.container}>
@@ -89,7 +65,6 @@ export default function FilterView(props) {
             <input
               list='departmentList'
               onChange={(e) =>{
-                setDepartmentId(deptIdMap[e.target.value])
                 setDepartment(e.target.value)
               } }
               style={styles.textField}
@@ -105,7 +80,6 @@ export default function FilterView(props) {
             <input
               list='titleList'
               onChange={(e) =>{
-                 setTitleId(titleIdMap[e.target.value])
                  setTitle(e.target.value)
                 }}
               style={styles.textField}
@@ -121,7 +95,6 @@ export default function FilterView(props) {
             <input
               list='locationList'
               onChange={(e) => {
-                setLocationId(locationIdMap[e.target.value]);
                 setLocation(e.target.value);
               }}
               style={styles.textField}

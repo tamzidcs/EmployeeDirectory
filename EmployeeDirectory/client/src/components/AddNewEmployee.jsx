@@ -7,12 +7,11 @@ const axios = require("axios");
 
 export default function AddNewEmployee() {
   const [firstName, setFirstName] = useState("");
-  const [middleName, setMiddleName] = useState("");
   const [lastName, setLastName] = useState("");
   const [departmentId, setDepartmentId] = useState("");
   const [locationId, setLocationId] = useState("");
   const [titleId, setTitleId] = useState("");
-  const [location, setLocation] = useState("");
+  
   const [departmentList, setDepartmentList] = useState([]);
   const [locationList, setLocationList] = useState([]);
   const [deptIdMap, setDeptIdMap] = useState({});
@@ -27,7 +26,6 @@ export default function AddNewEmployee() {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
     setValue,
   } = useForm();
@@ -39,7 +37,6 @@ export default function AddNewEmployee() {
     axios
       .post("http://localhost:3005/employees", {
         firstName: firstName,
-        middleName: middleName,
         lastName: lastName,
         departmentId: departmentId,
         locationId: locationId,
@@ -108,7 +105,7 @@ export default function AddNewEmployee() {
   useEffect(() => {
     getRandomNames()
     updateData();
-  }, []);
+  },[]);
 
   return (
     <div style={styles.container}>

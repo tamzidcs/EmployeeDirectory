@@ -25,9 +25,9 @@ export default function EmployeeListView() {
         }}).then(resp => {
                 console.log('data',resp.data)
                 setData(resp.data.employees)
-                if(resp.data.total_employee == 0 )
+                if(resp.data.employee_count == 0 )
                     setPage(0)
-                setTotalPage(Math.ceil(resp.data.total_employee/pageLimit))
+                setTotalPage(Math.ceil(resp.data.employee_count/pageLimit))
             }) 
     }
 

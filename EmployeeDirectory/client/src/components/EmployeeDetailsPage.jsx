@@ -2,6 +2,8 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import EmployeeList from "./EmployeeList";
 import { useLocation } from "react-router-dom";
+import { useAlert } from "react-alert";
+
 export default function EmployeeDetailsPage(props) {
   const [data, setData] = useState();
   const [formVisible, setFormVisible] = useState(false);
@@ -23,14 +25,12 @@ export default function EmployeeDetailsPage(props) {
   const [titleList, setTitleList] = useState([]);
   const [dataReady, setDataReady] = useState(false);
   
-
+  const alert = useAlert();
   const locationData = useLocation();
   let idVal = "";
   if (locationData.state) {
     const { id } = locationData.state;
     idVal = id;
-  } else {
-    const id = "";
   }
 
   const getEmployee = (id) => {
@@ -59,8 +59,9 @@ export default function EmployeeDetailsPage(props) {
       })
       .then((resp) => {
         console.log("data", resp.data);
+        alert.show("Employee updated.");
         setData(resp.data);
-        alert('Employee Updated')
+        
       });
   };
 
@@ -288,5 +289,12 @@ const styles = {
     paddingLeft: "1.5vw",
     textAlign: "left",
   },
-  form: {},
+  form: {
+    marginTop:'5vh',
+    textAlign:'left',
+    display:'flex-row'
+  },
+  textField:{
+    marginBottom:'2vh'
+  }
 };

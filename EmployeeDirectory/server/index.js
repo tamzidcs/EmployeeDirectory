@@ -10,10 +10,10 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-// Fetch
+// Get employees
 app.get("/employees", (req, res) => {
   let query =
-    "SELECT employee.id,employee.first_name,employee.middle_name,employee.last_name," +
+    "SELECT employee.id,employee.first_name,employee.last_name," +
     "department.name AS department,location.city AS location,job.title  FROM employee,department," +
     "emp_dept,emp_location,location,job,emp_job where department.id = emp_dept.dept_id AND " +
     "employee.id = emp_dept.emp_id AND emp_location.emp_id = employee.id AND emp_location.location_id = location.id AND " +
@@ -42,9 +42,11 @@ app.get("/employees", (req, res) => {
     query = 'SELECT COUNT(id) from EMPLOYEE'
     pool.query(query, (error, results) => {
       if (error) {
+        res.status(500).json({message:'failed to retrieve employee'}).end();
         throw error;
       }
-        resp['total_employee'] = results.rows[0]['count']
+      
+        resp['employee_count'] = results.rows[0].count
         res.status(200).json(resp).end();
     });
     
@@ -52,10 +54,10 @@ app.get("/employees", (req, res) => {
 
 });
 
-// Fetch
+// Get employee by id
 app.get("/employees/:id", (req, res) => {
   const query =
-    "SELECT employee.id,employee.first_name,employee.middle_name,employee.last_name," +
+    "SELECT employee.id,employee.first_name,employee.last_name," +
     "department.name AS department,location.city AS location,job.title  FROM employee,department," +
     "emp_dept,emp_location,location,job,emp_job where department.id = emp_dept.dept_id AND " +
     "employee.id = emp_dept.emp_id AND emp_location.emp_id = employee.id AND emp_location.location_id = location.id AND " +
@@ -63,39 +65,38 @@ app.get("/employees/:id", (req, res) => {
     req.params.id;
   pool.query(query, (error, results) => {
     if (error) {
-      res.status(500).json({message:'failed to retrieve emplyee'}).end();
+      res.status(500).json({message:'failed to retrieve employee'}).end();
       throw error;
     }
-    res.status(200).json(results.rows).end();
+    if(results.rows.length==0)
+      res.status(200).json({data:results.rows,message:'No employee found'}).end();
+    else
+      res.status(200).json(results.rows).end();
   });
 });
 
 
-// Add employee
+// Add an employee
 app.post("/employees", async (req, res) => {
-  console.log(req.body);
+  
   const id = await insertIntoemployee(
     req.body.firstName,
     req.body.middleName,
     req.body.lastName
   );
-  console.log(id);
+
   await insertIntoEmpDept(id, req.body.departmentId);
   await insertIntoEmpLocation(id, req.body.locationId);
   await insertIntoEmpJob(id, req.body.titleId);
   res.status(200).json({ message: "New employee added" }).end();
 });
 
-
-
 // Update
 app.put("/employees", async (req, res) => {
-  console.log('loc_id',req.body.locationId)
+  
   let query =
-    "UPDATE employee set first_name='" +req.body.firstName +"',middle_name='"+req.body.middleName +"',"
-    +"last_name='"+req.body.lastName +"'"+
-    "where id =" +
-    req.body.employeeId;
+    "UPDATE employee set first_name='" +req.body.firstName 
+    +"',"+"last_name='"+req.body.lastName +"'"+"where id =" +req.body.employeeId;
     
     await pool.query(query);
 
@@ -123,6 +124,7 @@ app.get("/departments", (req, res) => {
   const query = "SELECT id,name FROM department";
   pool.query(query, (error, results) => {
     if (error) {
+      res.status(500).json({message:'failed to retrieve departments'}).end();
       throw error;
     }
     res.status(200).json(results.rows).end();
@@ -134,6 +136,7 @@ app.get("/jobs", (req, res) => {
   const query = "SELECT id,title FROM job";
   pool.query(query, (error, results) => {
     if (error) {
+      res.status(500).json({message:'failed to retrieve jobs'}).end();
       throw error;
     }
     res.status(200).json(results.rows).end();
@@ -145,6 +148,7 @@ app.get("/locations", (req, res) => {
   const query = "SELECT id,city FROM location";
   pool.query(query, (error, results) => {
     if (error) {
+      res.status(500).json({message:'failed to retrieve location'}).end();
       throw error;
     }
     res.status(200).json(results.rows).end();

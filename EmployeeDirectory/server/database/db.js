@@ -9,11 +9,8 @@ const pool = new Pool({
 
 const insertIntoemployee = async (firstName, middleName, lastName) => {
   let query =
-    "INSERT INTO employee(first_name,middle_name,last_name) VALUES('" +
-    firstName +
-    "','" +
-    middleName +
-    "','" +
+    "INSERT INTO employee(first_name,last_name) VALUES('" +
+    firstName +"','" +
     lastName +
     "') RETURNING *";
   const results = await pool.query(query);
