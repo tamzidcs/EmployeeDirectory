@@ -8,10 +8,12 @@
 2. Run "npm start"
 
 # Server:
-1. Run "psql -U username -d database_name -f employee_directory.sql" to import the db
+1. Create a new postgres database called employee_directory.
+   "create database employee_directory"
+2. Run "psql -U username -d database_name -f employee_directory.sql" to import the db
 
    employee_directory.sql file is in employee_directory folder under the root dir.
-2. Configure the db:
+3. Configure the db:
    - Replace with proper username, host, database and password in "db.js" file
 ```js
     const pool = new Pool({
@@ -25,8 +27,8 @@
     File is located in Employee_Directory/server/database folder.
 
 
-3. Run "npm install" in server folder.
-4. Run "npm start"
+4. Run "npm install" in server folder.
+5. Run "npm start"
 
 # How to use:
    Read the features.txt file.
