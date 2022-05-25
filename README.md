@@ -9,7 +9,9 @@
 
 # Server:
 1. Create a new postgres database called employee_directory.
-   "create database employee_directory"
+   ```sql
+      "create database employee_directory"
+   ```
 2. Run "psql -U username -d database_name -f employee_directory.sql" to import the db
 
    employee_directory.sql file is in employee_directory folder under the root dir.
