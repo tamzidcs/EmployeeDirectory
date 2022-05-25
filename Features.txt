@@ -16,6 +16,7 @@ Special Instruction
 2. Typing a value will display available options for these three fields.
 3. To see all availble options for these three fields, erase the value or type
    one of the options.
+4. Hit refresh if there is no data in the list.
 
 
 Limitations and bugs
