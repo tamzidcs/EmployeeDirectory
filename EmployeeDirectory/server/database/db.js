@@ -1,11 +1,10 @@
-const Pool = require('pg').Pool
-const pool = new Pool({
-  user: 'postgres',
+const { Sequelize } = require('sequelize');
+const sequelize = new Sequelize('postgres', 'postgres', 'minat123', {
   host: 'localhost',
-  database: 'employee_directory',
-  password: 'minat123',
-  port: 5432,
-})
+  dialect: 'postgres'
+});
+
+
 
 const insertIntoemployee = async (firstName, middleName, lastName) => {
   let query =
