@@ -1,4 +1,4 @@
-# PostLightChallenge
+# Eployee Directory
 
 # How to install and run:
 
