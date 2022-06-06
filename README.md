@@ -1,4 +1,4 @@
-# Eployee Directory
+# Employee Directory
 
 # How to install and run:
 
